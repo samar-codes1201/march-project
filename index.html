@@ -133,6 +133,7 @@
   </style>
 </head>
 <body>
+  <button id="muteBtn" onclick="toggleMute()" style="display:none;position:fixed;bottom:24px;left:24px;z-index:400;background:white;border:none;border-radius:50%;width:44px;height:44px;font-size:1.3rem;cursor:pointer;box-shadow:0 4px 20px rgba(179,157,219,0.35);transition:transform 0.2s;">🔊</button>
   <audio id="bgm" src="./bgm.mp3" loop preload="auto"></audio>
 
 <div id="volumeNotif" style="display:none;position:fixed;bottom:24px;right:24px;left:auto;transform:none;z-index:400;background:white;border-radius:100px;padding:12px 24px;box-shadow:0 8px 32px rgba(179,157,219,0.35);font-family:'Lato',sans-serif;font-size:0.85rem;color:#3d2c5e;align-items:center;gap:10px;">
@@ -225,7 +226,26 @@ But today… it feels more real.</p>
 <p>I don’t know what the future looks like exactly. I don’t know how long it’ll take, or what paths we’ll go through before things become what we hope for.</p>
 
 <p>But I do know this. What I felt for you was never something temporary. And it still isn’t. <span class="emotional">Even if life takes us in different directions, I hope you remember me because I will always remember you.</span></p>
-
+<div style="text-align:center;margin-top:8px;">
+  <button onclick="toggleMissList()" style="background:none;border:1px solid rgba(255,255,255,0.3);color:#f9c8d9;padding:10px 24px;border-radius:100px;font-family:'Playfair Display',serif;font-style:italic;font-size:0.95rem;cursor:pointer;transition:all 0.2s;">
+    Things I'll miss
+  </button>
+  <div id="missList" style="display:none;margin-top:20px;border-top:1px solid rgba(255,255,255,0.15);padding-top:20px;">
+  <p style="font-family:'Dancing Script',cursive;font-size:1.3rem;color:#f9c8d9;margin-bottom:16px;text-align:center;">Things I'll miss about you…</p>
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;">
+   <li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Every walk to your mart to buy things...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Watching movies with you...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Our extra long talking sessions before and after gym, especially the early morning ones...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Dancing with you and squatting you over my shoulder...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Cutting vegetables for you...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Eating out with you...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Long drives with you...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Hugging you...</li>
+<li style="color:rgba(255,255,255,0.9);font-family:'Playfair Display',serif;font-size:1rem;line-height:1.7;">Holding your hand...</li>
+    <!-- add as many as you want in the same format -->
+  </ul>
+</div>
+</div>
 <p>I'll make dua for your happiness. Whatever that looks like for you...</p>
 
 <p>I hope this year brings you peace. Real peace. The kind that doesn’t come from people, but from Allah. I hope you grow into everything you’re meant to be. I hope you’re protected, guided, and always taken care of.</p>
@@ -241,56 +261,49 @@ But today… it feels more real.</p>
 <p>You still mean a lot to me.
 <span class="emotional">In a way that doesn’t go away… just becomes quieter, but somehow stronger.</span></p>
 
-<span class="sign-off">Samar</span>>
+<span class="sign-off">Samar</span>
     </div>
     <button class="bday-close" onclick="closeBirthday()">Close & Keep this forever 🌸</button>
   </div>
 </div>
 
 <script>
- function startBGM() {
-  var audio = document.getElementById('bgm');
-  audio.volume = 1.0;
-  var promise = audio.play();
-  if (promise !== undefined) {
-    promise.then(function() {
-      // only show if system volume is low
-      if (audio.volume < 0.3) {
-        var notif = document.getElementById('volumeNotif');
-        notif.style.display = 'flex';
-        setTimeout(function(){ notif.style.display = 'none'; }, 5000);
-      }
-    }).catch(function() {
-      document.addEventListener('click', function tryPlay() {
-        audio.play();
-        document.removeEventListener('click', tryPlay);
-      });
-    });
+  function toggleMissList() {
+  var list = document.getElementById('missList');
+  var btn = event.target;
+  if (list.style.display === 'none') {
+    list.style.display = 'block';
+    list.style.animation = 'fadeUp 0.5s ease both';
+    btn.textContent = '✕ Close';
+  } else {
+    list.style.display = 'none';
+    btn.textContent = '🌸 Things I\'ll miss about you';
   }
 }
+function toggleMute() {
   var audio = document.getElementById('bgm');
-  audio.volume = 1.0;
-  var promise = audio.play();
-  if (promise !== undefined) {
-    promise.then(function() {
-      // check if device volume is low — show notification
-      if (audio.volume < 0.3) {
-        document.getElementById('volumeNotif').style.display = 'flex';
-      } else {
-        // show it anyway as a gentle nudge
-        document.getElementById('volumeNotif').style.display = 'flex';
-        setTimeout(function(){
-          document.getElementById('volumeNotif').style.display = 'none';
-        }, 5000);
-      }
-    }).catch(function() {
-      // browser blocked autoplay — play on first tap instead
-      document.addEventListener('click', function tryPlay() {
-        audio.play();
-        document.removeEventListener('click', tryPlay);
-      });
-    });
-  }
+  var btn = document.getElementById('muteBtn');
+  audio.muted = !audio.muted;
+  btn.textContent = audio.muted ? '🔇' : '🔊';
+}
+var bgmStarted = false;
+
+function startBGM() {
+  var audio = document.getElementById('bgm');
+  if (bgmStarted) return; // singleton — don't restart
+  audio.volume = 0.5;     // background feel, not startling
+  audio.play().then(function() {
+    bgmStarted = true;
+    document.getElementById('muteBtn').style.display = 'block';
+    if (audio.volume < 0.3) {
+      var notif = document.getElementById('volumeNotif');
+      notif.style.display = 'flex';
+      setTimeout(function(){ notif.style.display = 'none'; }, 5000);
+    }
+  }).catch(function(err) {
+    console.log('Audio blocked:', err); // won't break the page
+    bgmStarted = false;
+  });
 }
   // Exactly 20 reasons — index 0 to 18 for days 1–19, index 19 for day 20 (birthday)
   const reasons = [
@@ -326,7 +339,7 @@ const captions = [
     "Hyderabad & biryani \ud83c\udf5b", "Driving lesson survivor \ud83d\ude97\ud83d\udca8", "The bat incident \ud83e\udd87\ud83d\ude02"
   ];
 
-  const GALLERY_COUNT = 10;
+  const GALLERY_COUNT = 19;
   const today = new Date();
   const isMarch = today.getMonth() === 2;
   const currentDay = today.getDate();
@@ -356,7 +369,7 @@ const captions = [
       const card       = document.createElement('div');
       card.className   = 'day-card';
       const isToday    = isMarch && d === currentDay;
-      const isUnlocked = true;
+      const isUnlocked = !isMarch || d <= currentDay;
       const isBirthday = d === 20;
       if (isToday)     card.classList.add('today-highlight-card');
       if (!isUnlocked) card.classList.add('locked');
@@ -382,11 +395,10 @@ const captions = [
     document.getElementById('photoCaption').textContent = captions[day - 1] || '';
     document.getElementById('modalDay').textContent = day;
     document.getElementById('modalDateLabel').textContent = 'March ' + day + ' \u00b7 A reason for Mariyam \ud83d\udc8c';
-    document.getElementById('modalReason').textContent = reasons[day - 1];
+   document.getElementById('modalReason').textContent = reasons[day - 1];
     document.getElementById('modalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
     launchConfetti();
-    startBGM();
   }
 
   function revealPhoto() {
@@ -413,6 +425,8 @@ const captions = [
     document.body.style.overflow = 'hidden';
     startPhotoRain();
     launchBirthdayConfetti();
+    startBGM();
+
   }
 
   function closeBirthday() {
