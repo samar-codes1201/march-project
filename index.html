@@ -369,7 +369,7 @@ const captions = [
       const card       = document.createElement('div');
       card.className   = 'day-card';
       const isToday    = isMarch && d === currentDay;
-      const isUnlocked = !isMarch || d <= currentDay;
+      const isUnlocked = true;
       const isBirthday = d === 20;
       if (isToday)     card.classList.add('today-highlight-card');
       if (!isUnlocked) card.classList.add('locked');
